@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Wallet</string>
+    <string name="btn_Money_Saver">Lista Movimenti</string>
+    <string name="btn_Add_Expense">Aggiungi Movimento</string>
+    <string name="btn_Statistics">Statistiche</string>
+    <string name="btn_Convert_to">Converti in ...</string>
+</resources>
