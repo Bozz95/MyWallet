@@ -1,0 +1,70 @@
+﻿CREATE TABLE category(
+  category_name TEXT NOT NULL,
+  category_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+CONSTRAINT unique_category UNIQUE (category_name)); 
+  
+ CREATE TABLE expenses(
+	expense_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	expense_date DATE NOT NULL,
+	expense_notes TEXT NOT NULL,
+	expense_cents_amount REAL NOT NULL,
+	expense_category INTEGER,
+	FOREIGN KEY(expense_category) REFERENCES category(category_id));
+	
+/*************************************************************
+	POPOLAMENTO TABELLA CATEGORIE
+/*************************************************************
+INSERT INTO category (category_name)
+VALUES ('Spesa viveri');
+INSERT INTO category (category_name)
+VALUES ('Ordine Amazon');
+INSERT INTO category (category_name)
+VALUES ('Auto');
+INSERT INTO category (category_name)
+VALUES ('Girare nudo con le mani in tasca');
+
+
+/**************************************************************
+
+
+
+/**************************************************************
+	Popolamento EXPENSES 
+/**************************************************************
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2018-06-15', 'andrea dipprè', 1699, 5);
+
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2018-06-16', 'nulla', 1699, 5);
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2018-06-7', 'gtx titan V', 449999, 3);
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2018-05-15', 'gnegno', 99, 4);
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2017-06-15', 'pepperoncini piccanti', 599, 1);
+INSERT INTO expenses (expense_date,expense_notes,expense_cents_amount,expense_category)
+VALUES ('2018-06-30', 'Asus Zephyrus mega galttico', 239999, 3);
+
+
+/**************************************************************
+
+
+/**************************************************************
+	SELECT QUERIES
+/**************************************************************
+SELECT expenses.expense_date, expenses.expense_cents_amount/100, expenses.expense_notes, category.category_name
+from category, expenses
+where expenses.expense_category = category.category_id;
+
+SELECT expenses.expense_date, expenses.expense_cents_amount/100, expenses.expense_notes, category.category_name
+from category
+join expenses on category.category_id = expenses.expense_category;
+
+
+SELECT expenses.expense_date, expenses.expense_cents_amount/100, expenses.expense_notes, category.category_name
+from category
+join expenses on category.category_id = expenses.expense_category
+order BY expenses.expense_date;
+
+/**************************************************************
+
