@@ -4,4 +4,15 @@
     <string name="btn_Add_Expense">Aggiungi Movimento</string>
     <string name="btn_Statistics">Statistiche</string>
     <string name="btn_Convert_to">Converti in ...</string>
+    <string name="TextInputHint">Inserire note</string>
+    <string name="TextViewDate">Inserire Data</string>
+    <string name="TextViewNotes">Inserire note (Opzionale)</string>
+    <string name="textViewFormDescriptor">Fornisci i dati del movimento</string>
+    <string name="textViewAmount">Inserire la spesa €</string>
+    <string name="spinnerDefaultString">Aggiungi Categoria</string>
+    <string name="TextViewCategory">Seleziona una categoria</string>
+    <string name="button_add_category">Aggiungi categoria</string>
+    <string name="textCategory">Inserisci nome  della categoria</string>
+    <string name="btnShowCategories">Mostra categorie</string>
+    <string name="voidField">Non hai compilato il campo: </string>
 </resources>
