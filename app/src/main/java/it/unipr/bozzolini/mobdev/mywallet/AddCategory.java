@@ -36,7 +36,7 @@ public class AddCategory extends AppCompatActivity {
             String categoryName = textCategory.getEditText().getText().toString();
 
             if (categoryName.matches("")) {
-               textCategory.setError("Serve un nome per la categoria.");
+               textCategory.setError("Serve un NOME per la categoria.");
                return;
             }
 
@@ -85,7 +85,6 @@ public class AddCategory extends AppCompatActivity {
         buttonAdd.setOnClickListener(addCategory);
 
         TextInputLayout layoutEditText = findViewById(R.id.TextInputLayoutCategory);
-        //layoutEditText.setOnFocusChangeListener(editTextFocusEvent);
         EditText editText = layoutEditText.getEditText();
         editText.setOnClickListener(editTextClick);
         //editText.setOnFocusChangeListener(editTextFocusEvent);

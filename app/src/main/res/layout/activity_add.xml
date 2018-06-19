@@ -19,40 +19,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewFormDescriptor"
         app:layout_constraintVertical_bias="0.826">
 
-        <TextView
-            android:id="@+id/textViewDate"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textLayoutDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/TextViewDate"
-            android:text="@string/TextViewDate"
-            tools:id="textViewDate" />
+            android:hint="@string/TextViewDate">
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/TextViewDate"
-            android:inputType="none"
-            android:focusable="false"
-            android:longClickable="false"
-            tools:id="editTextDate" />
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:longClickable="false"/>
 
-        <TextView
-            android:id="@+id/textViewAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/textViewAmount"
-            tools:id="textViewAmount"
-            tools:text="@string/textViewAmount" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextAmount"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textLayoutAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/textViewAmount"
-            android:inputType="numberDecimal|numberSigned" />
+            android:hint="@string/textViewAmount">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+        </android.support.design.widget.TextInputLayout>
 
         <Spinner
             android:id="@+id/spinner"
@@ -67,6 +59,7 @@
             tools:text="@string/button_add_category" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/textLayoutNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

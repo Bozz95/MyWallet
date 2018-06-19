@@ -1,11 +1,13 @@
 package it.unipr.bozzolini.mobdev.mywallet;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +29,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,15 +41,22 @@ import java.util.StringTokenizer;
 public class AddActivity extends AppCompatActivity {
     private  static final String TAG_ADD = "TAG ADD ACTIVITY";
 
+    private int selectedCategoryId = -1;
+
     private DbReaderDbHelper dbHelper;
 
     private Calendar myCalendar = Calendar.getInstance();
 
     private void updateLabel() {
-        EditText myDateText = findViewById(R.id.editTextDate);
+        TextInputLayout layoutEditText = findViewById(R.id.textLayoutDate);
+        EditText myDateText = layoutEditText.getEditText();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
         myDateText.setText(sdf.format(myCalendar.getTime()));
 
+    }
+
+    private void toastMessenger(String message) {
+        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -55,7 +65,7 @@ public class AddActivity extends AppCompatActivity {
      * @param value
      * @return
      */
-    public  String getDecimalFormattedString(String value) {
+    private  String getDecimalFormattedString(String value) {
         if (value != null && !value.equalsIgnoreCase("")) {
             StringTokenizer lst = new StringTokenizer(value, ".");
             String str1 = value;
@@ -216,6 +226,7 @@ public class AddActivity extends AppCompatActivity {
         MySpinnerAdapter adapter = new MySpinnerAdapter(this, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(spinnerSelectListener);
     }
 
     @Override
@@ -225,11 +236,14 @@ public class AddActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add);
 
-        EditText date = findViewById(R.id.editTextDate);
+        TextInputLayout layoutEditTextDate = findViewById(R.id.textLayoutDate);
+        EditText date = layoutEditTextDate.getEditText();
         date.setOnClickListener(popupCalendar);
 
-        EditText etAmount = findViewById(R.id.editTextAmount);
+        TextInputLayout layoutEditTextAmount = findViewById(R.id.textLayoutAmount);
+        EditText etAmount = layoutEditTextAmount.getEditText();
         etAmount.addTextChangedListener(amountTextWatcher);
+        etAmount.setOnClickListener(editTextClick);
 
         Spinner spinner = findViewById(R.id.spinner);
         setupSpinner(spinner);
@@ -239,26 +253,64 @@ public class AddActivity extends AppCompatActivity {
     }
 
     /// EVENT LISTENERS
+
+    private AdapterView.OnItemSelectedListener spinnerSelectListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            // hint position
+            if(position > 0) {
+                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                String[] projection = {
+                        DbConfig.Category.COLUMN_NAME_ID
+                };
+                String selection = DbConfig.Category.COLUMN_NAME_NAME + " = ?";
+                String[] selectionArgs = { (String) parent.getItemAtPosition(position) };
+
+                Cursor cursor = db.query(
+                        DbConfig.Category.TABLE_NAME,   // The table to query
+                        projection,             // The array of columns to return (pass null to get all)
+                        selection,              // The columns for the WHERE clause
+                        selectionArgs,          // The values for the WHERE clause
+                        null,                   // don't group the rows
+                        null,                   // don't filter by row groups
+                        null               // The sort order
+                );
+                if(cursor.moveToNext()){
+                    selectedCategoryId = cursor.getColumnIndexOrThrow(DbConfig.Category.COLUMN_NAME_ID);
+                }
+
+                cursor.close();
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
+
     private View.OnClickListener startAddCategory = new View.OnClickListener() {
+
         @Override
         public void onClick(View view) {
-            Log.d(TAG_ADD, "provo a creare l'intent");
             Intent intent = new Intent(AddActivity.this, AddCategory.class);
-            Log.d(TAG_ADD, "About to start new activity add category");
             startActivityForResult(intent, 1);
         }
     };
 
     private View.OnClickListener popupCalendar = new View.OnClickListener() {
+
         @Override
         public void onClick(View view) {
+            TextInputLayout textLayoutDate = findViewById(R.id.textLayoutDate);
+            textLayoutDate.setError(null);
             new DatePickerDialog(AddActivity.this, date, myCalendar
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH)).show();
         }
     };
 
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -272,7 +324,15 @@ public class AddActivity extends AppCompatActivity {
 
     };
 
-    TextWatcher amountTextWatcher = new TextWatcher() {
+    private View.OnClickListener editTextClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextInputLayout textLayoutAmount = findViewById(R.id.textLayoutAmount);
+            textLayoutAmount.setError(null);
+        }
+    };
+
+    private TextWatcher amountTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -284,7 +344,8 @@ public class AddActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            EditText etAmount = findViewById(R.id.editTextAmount);
+            TextInputLayout layoutEditTextAmount = findViewById(R.id.textLayoutAmount);
+            EditText etAmount = layoutEditTextAmount.getEditText();
             int cursorPosition = etAmount.getSelectionEnd();
             String originalStr = etAmount.getText().toString();
 
@@ -317,8 +378,6 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -326,12 +385,50 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
+    // Managing button add action bar
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_add:
-                //TODO
+                Boolean stop = false;
+                TextInputLayout textLayoutAmount = findViewById(R.id.textLayoutAmount);
+                TextInputLayout textLayoutDate = findViewById(R.id.textLayoutDate);
+                TextInputLayout textLayoutNote = findViewById(R.id.textLayoutNote);
+                EditText textDate = textLayoutDate.getEditText();
+                EditText textAmount = textLayoutAmount.getEditText();
+                Spinner spinnerCategory = findViewById(R.id.spinner);
+                String date = textDate.getText().toString();
+                String amount = textAmount.getText().toString();
+                if(selectedCategoryId == -1) {
+                    toastMessenger("NON hai selezionato una CATEGORIA.");
+                    stop = true;
+                }
+                if(date == "") {
+                    textLayoutDate.setError("Inserire DATA.");
+                    stop = true;
+                }
+                if(amount == "" || amount == "0.00") {
+                    textLayoutAmount.setError("Inserire una SPESA.");
+                    stop = true;
+                }
+                if(stop) return true;
+
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Log.d(TAG_ADD,"Valore del prezzo prima replaceAll: " + amount );
+                amount = amount.replaceAll(",","");
+                Log.d(TAG_ADD,"Valore del prezzo dopo replaceAll: " + amount );
+                Double numAmount = Double.parseDouble(amount)*100;
+                ContentValues values = new ContentValues();
+                values.put(DbConfig.Expenses.COLUMN_NAME_CATEGORY, selectedCategoryId);
+                values.put(DbConfig.Expenses.COLUMN_NAME_CENTS_AMOUNT, numAmount);
+                values.put(DbConfig.Expenses.COLUMN_NAME_DATE, date);
+                values.put(DbConfig.Expenses.COLUMN_NAME_NOTES,textLayoutNote.getEditText().getText().toString());
+
+                long newRowId = db.insert(DbConfig.Expenses.TABLE_NAME, null, values);
+                if(newRowId != -1)
+                    toastMessenger("Spesa inserita.");
+
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -341,15 +438,14 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG_ADD, "entro nella on activity result ");
         if (requestCode == 1) {
-            Log.d(TAG_ADD, "entro nel requestcode 1 ");
+
             if(resultCode == RESULT_OK){
-                Log.d(TAG_ADD, "entro nel result OK ");
+
                 Bundle bundle = data.getExtras();
                 Boolean refresh = bundle.getBoolean("refresh");
-                Log.d(TAG_ADD, "valore del risultato: " + refresh.toString());
                 if(refresh){
+
                     Spinner spinner = findViewById(R.id.spinner);
                     setupSpinner(spinner);
                 }
