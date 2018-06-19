@@ -7,19 +7,6 @@
     tools:context=".AddActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/myToolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -46,7 +33,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/TextViewDate"
-            android:inputType="date"
+            android:inputType="none"
+            android:focusable="false"
+            android:longClickable="false"
             tools:id="editTextDate" />
 
         <TextView
@@ -99,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myToolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/textViewFormDescriptor" />
 
 </android.support.constraint.ConstraintLayout>
