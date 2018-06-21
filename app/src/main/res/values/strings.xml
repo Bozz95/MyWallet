@@ -15,4 +15,9 @@
     <string name="textCategory">Inserisci nome  della categoria</string>
     <string name="btnShowCategories">Mostra categorie</string>
     <string name="voidField">Non hai compilato il campo: </string>
+    <string name="recycleViewDate">Data:</string>
+    <string name="recycleViewCategory">Categoria:</string>
+    <string name="recycleViewAmount">Spesa:</string>
+    <string name="recycleViewNotes">Note:</string>
+    <string name="expensePageText">Lista delle Spese</string>
 </resources>

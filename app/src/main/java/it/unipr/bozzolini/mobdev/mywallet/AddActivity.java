@@ -252,6 +252,12 @@ public class AddActivity extends AppCompatActivity {
         btnStartAddCategory.setOnClickListener(startAddCategory);
     }
 
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
+    }
+
     /// EVENT LISTENERS
 
     private AdapterView.OnItemSelectedListener spinnerSelectListener = new AdapterView.OnItemSelectedListener() {
@@ -276,7 +282,8 @@ public class AddActivity extends AppCompatActivity {
                         null               // The sort order
                 );
                 if(cursor.moveToNext()){
-                    selectedCategoryId = cursor.getColumnIndexOrThrow(DbConfig.Category.COLUMN_NAME_ID);
+                    selectedCategoryId = cursor.getInt(cursor.getColumnIndexOrThrow(DbConfig.Category.COLUMN_NAME_ID));
+
                 }
 
                 cursor.close();
@@ -392,33 +399,44 @@ public class AddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add:
                 Boolean stop = false;
+                Double numAmount = 0.0;
                 TextInputLayout textLayoutAmount = findViewById(R.id.textLayoutAmount);
                 TextInputLayout textLayoutDate = findViewById(R.id.textLayoutDate);
                 TextInputLayout textLayoutNote = findViewById(R.id.textLayoutNote);
                 EditText textDate = textLayoutDate.getEditText();
                 EditText textAmount = textLayoutAmount.getEditText();
-                Spinner spinnerCategory = findViewById(R.id.spinner);
+
                 String date = textDate.getText().toString();
                 String amount = textAmount.getText().toString();
+                /**
+                 * Controllo i valori degli input
+                 */
                 if(selectedCategoryId == -1) {
                     toastMessenger("NON hai selezionato una CATEGORIA.");
                     stop = true;
                 }
-                if(date == "") {
+                if(date.equals("")) {
+                    Log.d(TAG_ADD, "campo data vuoto");
                     textLayoutDate.setError("Inserire DATA.");
                     stop = true;
                 }
-                if(amount == "" || amount == "0.00") {
+                if(amount.equals("")) {
                     textLayoutAmount.setError("Inserire una SPESA.");
                     stop = true;
+                } else {
+                    amount = amount.replaceAll(",","");
+                    numAmount = Double.parseDouble(amount)*100;
+                    Log.d(TAG_ADD,"Valore dell'amount: " + numAmount);
+                    if(numAmount == 0.0) {
+                        textLayoutAmount.setError("Inserire una SPESA.");
+                        stop = true;
+                    }
                 }
+
                 if(stop) return true;
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                Log.d(TAG_ADD,"Valore del prezzo prima replaceAll: " + amount );
-                amount = amount.replaceAll(",","");
-                Log.d(TAG_ADD,"Valore del prezzo dopo replaceAll: " + amount );
-                Double numAmount = Double.parseDouble(amount)*100;
+
                 ContentValues values = new ContentValues();
                 values.put(DbConfig.Expenses.COLUMN_NAME_CATEGORY, selectedCategoryId);
                 values.put(DbConfig.Expenses.COLUMN_NAME_CENTS_AMOUNT, numAmount);
@@ -428,7 +446,7 @@ public class AddActivity extends AppCompatActivity {
                 long newRowId = db.insert(DbConfig.Expenses.TABLE_NAME, null, values);
                 if(newRowId != -1)
                     toastMessenger("Spesa inserita.");
-
+                finish();
                 return true;
             default:
                 return super.onContextItemSelected(item);
