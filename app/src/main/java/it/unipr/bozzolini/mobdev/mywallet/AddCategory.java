@@ -37,7 +37,14 @@ public class AddCategory extends AppCompatActivity {
 
             if (categoryName.matches("")) {
                textCategory.setError("Serve un NOME per la categoria.");
+               Log.d(TAG_ADD_CATEGORY,"Errore Categoria vuota");
                return;
+            }
+
+            if (categoryName.trim().length() == 0 ) {
+                textCategory.setError("Serve un NOME per la categoria.");
+                Log.d(TAG_ADD_CATEGORY,"Errore Categoria vuota");
+                return;
             }
 
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -54,6 +61,7 @@ public class AddCategory extends AppCompatActivity {
                 } else {
                 textCategory.setError("Categoria già esistente.");
             }
+            Log.d(TAG_ADD_CATEGORY,"concludo l'activity comunque");
             finish();
         }
     };

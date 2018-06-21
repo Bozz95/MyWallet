@@ -52,11 +52,22 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
         holder.textViewCategory.setText(mDataset.get(position).getCategory());
         holder.textViewAmount.setText(mDataset.get(position).getAmount());
         holder.textViewNotes.setText(mDataset.get(position).getNotes());
+
     }
 
 
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void removeItem(int position) {
+
+        mDataset.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRangeChanged(position, mDataset.size());
+        notifyItemRemoved(position);
     }
 }

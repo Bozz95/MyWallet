@@ -1,8 +1,17 @@
 package it.unipr.bozzolini.mobdev.mywallet;
 
+
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Expense {
 
     private String date, category, notes;
+
+    public int getId() {
+        return id;
+    }
+
     private int id;
     private double amount;
 
@@ -26,8 +35,13 @@ public class Expense {
         this.date = date;
     }
 
+    public Double getAmountValue(){
+        return this.amount;
+    }
+
     public String getAmount() {
-        String app = Double.toString(amount/100) + " €";
+        //String app = Double.toString(amount/100) + " €";
+        String app = NumberFormat.getNumberInstance(Locale.ITALY).format(this.amount/100) + " €";
         return app;
     }
 
