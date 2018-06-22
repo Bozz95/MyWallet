@@ -10,6 +10,9 @@
         android:id="@+id/imageButtonAdd"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@color/imagebuttons"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -21,34 +24,43 @@
         android:id="@+id/imageButtonConvert"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@color/imagebuttons"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageButtonStats"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/ic_money_saver" />
+        app:srcCompat="@drawable/convert" />
 
     <ImageButton
         android:id="@+id/imageButtonStats"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@color/imagebuttons"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonConvert"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_money_saver" />
+        app:srcCompat="@drawable/piechart" />
 
     <ImageButton
         android:id="@+id/imageButtonMovements"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@color/imagebuttons"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonAdd"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_piggy_money" />
+        app:srcCompat="@drawable/banknotes" />
 
     <TextView
         android:id="@+id/textView"

@@ -28,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener startStatsActivity = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), StatsActivity.class);
+            Log.d(TAG_MAIN, "About to start new activity");
+            startActivity(intent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton imgBtnMovements = findViewById(R.id.imageButtonMovements);
         imgBtnMovements.setOnClickListener(startShowExpenseActivity);
 
+        ImageButton imgBtnStats = findViewById(R.id.imageButtonStats);
+        imgBtnStats.setOnClickListener(startStatsActivity);
     }
 }

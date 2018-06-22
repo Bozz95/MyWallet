@@ -20,4 +20,5 @@
     <string name="recycleViewAmount">Spesa:</string>
     <string name="recycleViewNotes">Note:</string>
     <string name="expensePageText">Lista delle Spese</string>
+    <string name="statsTitle">Percentuale spese per Categoria</string>
 </resources>

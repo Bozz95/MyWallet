@@ -64,7 +64,7 @@ public class ShowExpenses extends AppCompatActivity {
                 "FROM " + DbConfig.Expenses.TABLE_NAME + ", " + DbConfig.Category.TABLE_NAME +
                 " WHERE " +  DbConfig.Expenses.TABLE_NAME + "." + DbConfig.Expenses.COLUMN_NAME_CATEGORY + " = " +
                             DbConfig.Category.TABLE_NAME + "." + DbConfig.Category.COLUMN_NAME_ID +
-                " ORDER BY date(" + DbConfig.Expenses.TABLE_NAME + "." + DbConfig.Expenses.COLUMN_NAME_DATE + ");";
+                " ORDER BY " + DbConfig.Expenses.TABLE_NAME + "." + DbConfig.Expenses.COLUMN_NAME_DATE + " DESC;";
 
 
         Cursor cursor = db.rawQuery(SELECT_QUERY,null);
