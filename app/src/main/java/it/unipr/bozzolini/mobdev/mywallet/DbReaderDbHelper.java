@@ -30,6 +30,15 @@ public class DbReaderDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_CATEGORY =
             "DROP TABLE IF EXISTS " + DbConfig.Category.TABLE_NAME;
 
+    private static  final String SQL_INITIAL_CATEGORY_FOOD = "INSERT INTO " + DbConfig.Category.TABLE_NAME +
+            "(" + DbConfig.Category.COLUMN_NAME_NAME + ") VALUES ('Viveri');";
+
+    private static final String  SQL_INITIAL_CATEGORY_CLOTHES = "INSERT INTO " + DbConfig.Category.TABLE_NAME +
+            "(" + DbConfig.Category.COLUMN_NAME_NAME + ") VALUES ('Vestiti');";
+
+    private static final String  SQL_INITIAL_CATEGORY_TAXES = "INSERT INTO " + DbConfig.Category.TABLE_NAME +
+            "(" + DbConfig.Category.COLUMN_NAME_NAME + ") VALUES ('Tasse');";
+
     private static final String SQL_DELETE_EXPENSES =
             "DROP TABLE IF EXISTS " + DbConfig.Expenses.TABLE_NAME;
     
@@ -41,7 +50,11 @@ public class DbReaderDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_CATEGORY);
         db.execSQL(SQL_CREATE_EXPENSES);
-        Log.d(TAG,"onCreate method, creating tables!");
+        Log.d(TAG,"onCreate method, creating tables!" + SQL_INITIAL_CATEGORY_CLOTHES);
+        db.execSQL(SQL_INITIAL_CATEGORY_FOOD);
+        db.execSQL(SQL_INITIAL_CATEGORY_TAXES);
+        db.execSQL(SQL_INITIAL_CATEGORY_CLOTHES);
+
     }
 
     @Override

@@ -21,4 +21,6 @@
     <string name="recycleViewNotes">Note:</string>
     <string name="expensePageText">Lista delle Spese</string>
     <string name="statsTitle">Percentuale spese per Categoria</string>
+    <string name="CVSCreate">Importa CVS</string>
+    <string name="CVSExport">Esporta CVS</string>
 </resources>

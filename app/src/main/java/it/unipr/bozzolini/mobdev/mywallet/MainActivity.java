@@ -37,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener startCVSActivity = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), CVSActivity.class);
+            Log.d(TAG_MAIN, "About to start new activity");
+            startActivity(intent);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,5 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton imgBtnStats = findViewById(R.id.imageButtonStats);
         imgBtnStats.setOnClickListener(startStatsActivity);
+
+        ImageButton imgBtnCVS = findViewById(R.id.imageButtonConvert);
+        imgBtnCVS.setOnClickListener(startCVSActivity);
     }
 }

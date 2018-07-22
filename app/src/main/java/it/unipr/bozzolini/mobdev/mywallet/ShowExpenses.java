@@ -88,8 +88,6 @@ public class ShowExpenses extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
