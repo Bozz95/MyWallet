@@ -107,9 +107,10 @@ public class CVSActivity extends AppCompatActivity {
         }
 
         Log.d(TAG_CSV,"toWrite in CSV: " + toWrite);
-
+        File file = new File(getApplicationContext().getFilesDir(), CSVFilename);
         try {
-            FileOutputStream fos = openFileOutput(CSVFilename, Context.MODE_PRIVATE);
+            FileOutputStream fos;// = openFileOutput(CSVFilename, Context.MODE_PRIVATE);
+            fos = new FileOutputStream(file);
             fos.write(toWrite.getBytes());
             Log.d(TAG_CSV,"Scrittura riuscita del CVS.");
             fos.close();
@@ -130,7 +131,7 @@ public class CVSActivity extends AppCompatActivity {
             getExpenses(expenses);
 
             writeCSV();
-
+            finish();
         }
     };
 
@@ -157,6 +158,7 @@ public class CVSActivity extends AppCompatActivity {
                 //File file = new File(data.getData().getPath());
                 Uri filepath = data.getData();
                 proImportCSV(filepath);
+                finish();
             }
         }
     }
